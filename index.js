@@ -22,3 +22,5 @@ app.use(require("./src/middlewares/errorHandler.js")); // aşağıda kalsın
 app.listen(PORT, HOST, () =>
   console.log(`Server runned http://${HOST}:${PORT}`)
 );
+
+// require('./src/sync')()
