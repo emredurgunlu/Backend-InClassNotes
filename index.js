@@ -15,6 +15,7 @@ app.use(express.json());
 
 require("./src/configs/dbConnection.js");
 
+app.use("/user", require("./src/routes/user.router"));
 app.use("/blog", require("./src/routes/blog.router.js"));
 
 app.use(require("./src/middlewares/errorHandler.js")); // aşağıda kalsın
