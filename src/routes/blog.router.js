@@ -2,10 +2,19 @@
 
 const router = require("express").Router();
 
-const { BlogPost } = require("../controllers/blog.controller.js");
+const { BlogCategory, BlogPost } = require("../controllers/blog.controller");
 
+// BlogCategory:
+router.route("/categories").get(BlogCategory.list).post(BlogCategory.create);
+router
+  .route("/categories/:categoryId")
+  .get(BlogCategory.read)
+  .put(BlogCategory.update) // put patch aynı
+  .patch(BlogCategory.update)
+  .delete(BlogCategory.delete);
+
+// BlogPost:
 router.route("/posts").get(BlogPost.list).post(BlogPost.create);
-
 router
   .route("/posts/:postId")
   .get(BlogPost.read) // burada list yerine read dememizin sebebi tek bir kaydı getireceği için
