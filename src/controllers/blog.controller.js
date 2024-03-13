@@ -17,7 +17,7 @@ module.exports.BlogPost = {
     res.status(201).send({
       error: false,
       body: req.body, // kaydetmek için gönderdiğim veri
-      data: data, // kaydettikten sonra dönen sonuç
+      data: data, // kaydettikten sonra dönen sonuç info about update
     });
   },
   read: async (req, res) => {
@@ -33,14 +33,13 @@ module.exports.BlogPost = {
     res.status(202).send({
       error: false,
       body: req.body,
-      data: data, // info about update
+      data: data,
       // güncel veriyi istiyorsan tekrar çağır (newdata)
       newdata: newdata,
     });
   },
   delete: async (req, res) => {
     const data = await BlogPost.deleteOne({ _id: req.params.postId });
-    // console.log(data);
     res.sendStatus(data.deletedCount >= 1 ? 204 : 404);
   },
 };
