@@ -15,6 +15,21 @@ app.use(express.json());
 
 require("./src/configs/dbConnection.js");
 
+/* ------------------------------------------------------- */
+// SessionCookies:
+// http://expressjs.com/en/resources/middleware/cookie-session.html
+// https://www.npmjs.com/package/cookie-session
+//* $ npm i cookie-session
+
+const session = require("cookie-session");
+app.use(
+  session({
+    secret: process.env.SECRET_KEY, // Şifreleme anahtarı
+    // maxAge: 1000 * 60 * 60 * 24 * 3  // miliseconds // 3 days
+  })
+);
+/* ------------------------------------------------------- */
+
 app.use("/user", require("./src/routes/user.router"));
 app.use("/blog", require("./src/routes/blog.router.js"));
 
