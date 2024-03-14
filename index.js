@@ -29,6 +29,13 @@ app.use(
   })
 );
 /* ------------------------------------------------------- */
+app.all("/", (req, res) => {
+  res.send({
+    error: false,
+    message: "WELCOME BLOG API PROJECT",
+    loginedUser: req.session,
+  });
+});
 
 app.use("/user", require("./src/routes/user.router"));
 app.use("/blog", require("./src/routes/blog.router.js"));
