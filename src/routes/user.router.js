@@ -15,4 +15,9 @@ router
   .patch(User.update)
   .delete(User.delete);
 
+// Login/Logout:
+router.post("/login", User.login);
+// router.get('/logout', User.logout)
+router.all("/logout", User.logout); // get yerine all da diyebilirsin
+
 module.exports = router;

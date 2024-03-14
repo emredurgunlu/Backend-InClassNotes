@@ -7,6 +7,8 @@ require("express-async-errors");
 
 const User = require("../models/user.model");
 
+const passwordEncrypt = require("../helpers/passwordEncrypt");
+
 module.exports = {
   list: async (req, res) => {
     const data = await User.find();
@@ -45,5 +47,40 @@ module.exports = {
     const data = await User.deleteOne({ _id: req.params.userId });
     // console.log(data);
     res.sendStatus(data.deletedCount >= 1 ? 204 : 404);
+  },
+
+  // Login/Logout:
+  login: async (req, res) => {
+    const { email, password } = req.body;
+
+    if (email && password) {
+      // const user = await User.findOne({ email: email })
+      const user = await User.findOne({ email });
+
+      if (user && user.password == passwordEncrypt(password)) {
+        req.session.email = user.email;
+
+        res.status(200).send({
+          error: false,
+          message: "Login OK",
+          user, // login olunca giriş yaptığı veriyi göstermek için
+        });
+      } else {
+        res.errorStatusCode = 401;
+        throw new Error("Login parameters are not true.");
+      }
+    } else {
+      res.errorStatusCode = 401;
+      throw new Error("Email and password are required.");
+    }
+  },
+  logout: async (req, res) => {
+    // Session destroy:
+    req.session = null;
+
+    res.status(200).send({
+      error: false,
+      message: "Logout OK",
+    });
   },
 };
