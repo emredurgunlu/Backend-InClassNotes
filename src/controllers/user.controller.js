@@ -58,15 +58,13 @@ module.exports = {
       const user = await User.findOne({ email }); // bu emaile sahip biri var mı?
 
       if (user && user.password == passwordEncrypt(password)) {
-        req.session.email = user.email;
-
         /* SESSION */ // SESSION kaydetme işlemi:
         // req.session = {
         //     email: user.email,
         //     password: user.password
         // }
-        req.session.email = user.email
-        // req.session.id = user.id;
+        // req.session.email = user.email
+        req.session.id = user.id;
         req.session.password = user.password;
         /* SESSION */
 
