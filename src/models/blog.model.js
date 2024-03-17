@@ -27,7 +27,7 @@ const blogPostSchema = new mongoose.Schema(
     blogCategoryId: {
       type: mongoose.Schema.Types.ObjectId, // ForeignKey, RelationalID
       ref: "BlogCategory",
-      // buradaki referans ile BlogCategory'e bağlanıyor.
+      // buradaki referans ile BlogCategory'e bağlanıyor. ref olmasa populate çalışmaz
       // Buraya yazdığın model ismi; BlogCategory: mongoose.model("BlogCategory", blogCategorySchema), bu satırdaki model("BlogCategory" ile aynı olmalı
       required: true,
     },

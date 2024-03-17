@@ -114,7 +114,8 @@ module.exports.BlogPost = {
     //   .skip(skip)
     //   .limit(limit);
 
-    const data = await res.getModelList(BlogPost, "blogCategoryId");
+    // const data = await BlogPost.find().populate('blogCategoryId')
+    const data = await res.getModelList(BlogPost, "blogCategoryId"); // 2.parametre "blogCategoryId" populate için
 
     res.status(200).send({
       error: false,
@@ -131,7 +132,9 @@ module.exports.BlogPost = {
     });
   },
   read: async (req, res) => {
-    const data = await BlogPost.findOne({ _id: req.params.postId });
+    const data = await BlogPost.findOne({ _id: req.params.postId }).populate(
+      "blogCategoryId"
+    );
     res.status(202).send({
       error: false,
       data: data,
