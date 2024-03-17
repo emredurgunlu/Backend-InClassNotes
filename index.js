@@ -30,13 +30,17 @@ app.use(
 );
 /* ------------------------------------------------------- */
 
+// Middlewares:
+
 // Check logined User:
 app.use(require("./src/middlewares/userControl"));
+
+// Filter, Search, Sort, Pagination:
+app.use(require("./src/middlewares/findSearchSortPage"));
 
 /* ------------------------------------------------------- */
 
 app.all("/", (req, res) => {
-
   if (req.isLogin) {
     res.send({
       error: false,
