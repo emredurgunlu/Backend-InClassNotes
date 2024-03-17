@@ -77,14 +77,40 @@ module.exports.BlogPost = {
     // asc: A-Z - desc: Z-A
     // http://127.0.0.1:8000/blog/posts?sort[title]=desc
     const sort = req.query?.sort || {};
-    console.log(sort);
+    // console.log(sort);
+
+    // PAGINATION:
+    // URL?page=3&limit=10
+
+    // Limit:
+    // http://127.0.0.1:8000/blog/posts?limit=2
+    let limit = Number(req.query?.limit);
+    limit = limit > 0 ? limit : Number(process.env.PAGE_SIZE || 20); // limit=abc yazarsan da 20 olur, limiti hiç göndermesen url'den yine 20 olur
+    console.log("limit", limit);
+
+    // Page:
+    // http://127.0.0.1:8000/blog/posts?page=5&limit=4
+    let page = Number(req.query?.page);
+    // page = page > 0 ? page : 1
+    page = page > 0 ? page - 1 : 0; // Backend 'de sayfa sayısı her zmaan page-1 olarak hesaplanmalı.
+    console.log("page", page);
+
+    // Skip:
+    // LIMIT 20, 10
+    let skip = Number(req.query?.skip);
+    skip = skip > 0 ? skip : page * limit;
+    console.log("skip", skip);
 
     /* FILTERING & SEARCHING & SORTING & PAGINATION */
     // const data = await BlogPost.find({ published: true }) find metodu bir obje yazarsan yazdığın objeye göre filtreleme yapar. const filter zaten bir obje tutuyordu.
     // http://127.0.0.1:8000/blog/posts?filter[title]=test 1 title
     // const data = await BlogPost.find(filter);
     // const data = await BlogPost.find({ ...filter, ...search });
-    const data = await BlogPost.find({ ...filter, ...search }).sort(sort);
+    // const data = await BlogPost.find({ ...filter, ...search }).sort(sort);
+    const data = await BlogPost.find({ ...filter, ...search })
+      .sort(sort)
+      .skip(skip)
+      .limit(limit);
     res.status(200).send({
       error: false,
       data: data,
