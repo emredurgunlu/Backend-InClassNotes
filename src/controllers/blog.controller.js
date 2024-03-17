@@ -49,10 +49,16 @@ module.exports.BlogCategory = {
 module.exports.BlogPost = {
   list: async (req, res) => {
     /* FILTERING & SEARCHING & SORTING & PAGINATION */
-    // http://127.0.0.1:8000/blog/posts?search[title]=test&search[content]=test&filter[published]=1&sort[createdAt]=asc
-    console.log(req.query);
+    // FILTERING:
+    // URL?filter[key1]=value1&filter[key2]=value2
+    // http://127.0.0.1:8000/blog/posts?filter[blogCategoryId]=65f6f49749f2b113b4366f0f
+    const filter = req.query?.filter || {};
+    console.log(filter);
     /* FILTERING & SEARCHING & SORTING & PAGINATION */
-    const data = await BlogPost.find();
+    // const data = await BlogPost.find({ published: true }) find metodu bir obje yazarsan yazdığın objeye göre filtreleme yapar. const filter zaten bir obje tutuyordu.
+    // http://127.0.0.1:8000/blog/posts?filter[title]=test 1 title
+    const data = await BlogPost.find(filter);
+    // const data = await BlogPost.find();
     res.status(200).send({
       error: false,
       data: data,
