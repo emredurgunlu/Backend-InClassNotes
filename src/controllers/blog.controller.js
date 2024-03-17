@@ -48,6 +48,10 @@ module.exports.BlogCategory = {
 
 module.exports.BlogPost = {
   list: async (req, res) => {
+    /* FILTERING & SEARCHING & SORTING & PAGINATION */
+    // http://127.0.0.1:8000/blog/posts?search[title]=test&search[content]=test&filter[published]=1&sort[createdAt]=asc
+    console.log(req.query);
+    /* FILTERING & SEARCHING & SORTING & PAGINATION */
     const data = await BlogPost.find();
     res.status(200).send({
       error: false,
