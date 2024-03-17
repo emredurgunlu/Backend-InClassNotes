@@ -53,12 +53,29 @@ module.exports.BlogPost = {
     // URL?filter[key1]=value1&filter[key2]=value2
     // http://127.0.0.1:8000/blog/posts?filter[blogCategoryId]=65f6f49749f2b113b4366f0f
     const filter = req.query?.filter || {};
-    console.log(filter);
+    // console.log(filter);
+
+    // SEARCHING:
+    // URL?search[key1]=value1&search[key2]=value2
+    // https://www.mongodb.com/docs/manual/reference/operator/query/regex/
+    // http://127.0.0.1:8000/blog/posts?search[title]=test 1&search[content]=test 10&filter[published]=1
+    const search = req.query?.search || {};
+    console.log(search);
+    //? { title: 'test 0', content: 'test' } -> { title: { $regex: 'test 0' }, content: { $regex: 'test' } }
+
+    for (let key in search) {
+      // search['title'] = { $regex: search['title'] }
+      // search['content'] = { $regex: search['content'] }
+      search[key] = { $regex: search[key] };
+    }
+
+    console.log(search);
+
     /* FILTERING & SEARCHING & SORTING & PAGINATION */
     // const data = await BlogPost.find({ published: true }) find metodu bir obje yazarsan yazdığın objeye göre filtreleme yapar. const filter zaten bir obje tutuyordu.
     // http://127.0.0.1:8000/blog/posts?filter[title]=test 1 title
-    const data = await BlogPost.find(filter);
-    // const data = await BlogPost.find();
+    // const data = await BlogPost.find(filter);
+    const data = await BlogPost.find({ ...filter, ...search });
     res.status(200).send({
       error: false,
       data: data,
